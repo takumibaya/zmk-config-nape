@@ -24,7 +24,7 @@
     // 加速カーブの指数。1より大きいと、後からグッと伸びるようになります。
     // まずは1（線形）か2（緩やかな指数）から試すのがおすすめです。
 
-    acceleration-exponent = <20>;  // デフォルト0 線形加速
+    acceleration-exponent = <17>;  // デフォルト0 線形加速
 };
 
 // マウススクロールの設定
@@ -110,14 +110,16 @@
     keymap {
         compatible = "zmk,keymap";
 
-        // レイヤー0（0°、USBポートを下向きにした状態）"
 
-        orientation0_layer {
+        // レイヤー0（時計回り90°）
+
+        orientation90_layer {
             bindings = <
 &lt_mkp 10 MB3  &mkp MB2  &mkp MB1  &mo 8  &mo 9  &mo 11
             >;
         };
 
+    
         // レイヤー1（時計回り45°）
 
         orientation45_layer {
@@ -126,13 +128,15 @@
             >;
         };
 
-        // レイヤー2（時計回り90°）
 
-        orientation90_layer {
+        // レイヤー2（0°、USBポートを下向きにした状態）"
+
+        orientation0_layer {
             bindings = <
 &lt_mkp 10 MB3  &mkp MB2  &mkp MB1  &mo 8  &mo 9  &mo 11
             >;
         };
+
 
         // レイヤー3（時計回り135°）
 
