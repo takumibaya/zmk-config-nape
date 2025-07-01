@@ -110,26 +110,7 @@
     keymap {
         compatible = "zmk,keymap";
 
-
         // レイヤー0（時計回り90°）
-
-        orientation90_layer {
-            bindings = <
-&lt_mkp 10 MB3  &mkp MB2  &mkp MB1  &mo 8  &mo 9  &mo 11
-            >;
-        };
-
-    
-        // レイヤー1（時計回り45°）
-
-        orientation45_layer {
-            bindings = <
-&lt_mkp 10 MB3  &mkp MB2  &mkp MB1  &mo 8  &mo 9  &mo 11
-            >;
-        };
-
-
-        // レイヤー2（0°、USBポートを下向きにした状態）"
 
         orientation0_layer {
             bindings = <
@@ -137,8 +118,17 @@
             >;
         };
 
+        orientation45_layer {
+            bindings = <
+&lt_mkp 10 MB3  &mkp MB2  &mkp MB1  &mo 8  &mo 9  &mo 11
+            >;
+        };
 
-        // レイヤー3（時計回り135°）
+        orientation90_layer {
+            bindings = <
+&lt_mkp 10 MB3  &mkp MB2  &mkp MB1  &mo 8  &mo 9  &mo 11
+            >;
+        };
 
         orientation135_layer {
             bindings = <
@@ -146,15 +136,11 @@
             >;
         };
 
-        // レイヤー4（時計回り180°）
-
         orientation180_layer {
             bindings = <
 &lt_mkp 10 MB3  &mkp MB2  &mkp MB1  &mo 8  &mo 9  &mo 11
             >;
         };
-
-        // レイヤー5（時計回り225°）
 
         orientation225_layer {
             bindings = <
@@ -162,15 +148,11 @@
             >;
         };
 
-        // レイヤー6（時計回り270°）
-
         orientation270_layer {
             bindings = <
 &lt_mkp 10 MB3  &mkp MB2  &mkp MB1  &mo 8  &mo 9  &mo 11
             >;
         };
-
-        // レイヤー7（時計回り315°）
 
         orientation315_layer {
             bindings = <
@@ -178,23 +160,17 @@
             >;
         };
 
-        // レイヤー8（Bluetooth選択レイヤー）
-
         btsel_layer {
             bindings = <
 &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &trans  &bt BT_SEL 3  &bt BT_SEL 4
             >;
         };
 
-        // レイヤー9（Bluetoothクリアレイヤー）
-
         btclr_layer {
             bindings = <
 &none  &none  &none  &bt BT_CLR  &none  &bt BT_CLR_ALL
             >;
         };
-
-        // レイヤー10（スクロールレイヤー）
 
         scroll_layer {
             bindings = <
@@ -208,11 +184,9 @@
                 <&mouse_scrl SCRL_UP SCRL_DOWN>;
         };
 
-        // レイヤー11（使用向き選択レイヤー）
-
         orientation_layer {
             bindings = <
-&to 2  &to 4  &to 6  &to 0  &to 5  &trans
+&to 0  &to 4  &to 6  &to 3  &to 5  &trans
             >;
         };
     };
