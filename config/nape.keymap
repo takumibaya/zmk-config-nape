@@ -16,8 +16,6 @@
 
 &mmv {
 
-    processors = <&pointer_scaler>;
-
     delay-ms = <0>;              // 遅延なし
     trigger-period-ms = <10>;    // 10ミリ秒ごとにトリガー
     // ボールを動かし始めてから最大速度に達するまでの時間を設定（例: 400ミリ秒）
@@ -88,6 +86,8 @@
             compatible = "zmk,behavior-sensor-rotate-var";
             #sensor-binding-cells = <2>;
             bindings = <&mmv>, <&mmv>;
+
+            processors = <&pointer_scaler>;　
 
             tap-ms = <10>;
         };
