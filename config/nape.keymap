@@ -2,8 +2,8 @@
 
 // マウス移動とスクロールのデフォルト値を設定
 
-#define ZMK_POINTING_DEFAULT_MOVE_VAL 800 //デフォルト800
-#define ZMK_POINTING_DEFAULT_SCRL_VAL 100
+#define ZMK_POINTING_DEFAULT_MOVE_VAL 1000 //デフォルト800
+#define ZMK_POINTING_DEFAULT_SCRL_VAL 300
 
 #include <input/processors.dtsi>
 #include <zephyr/dt-bindings/input/input-event-codes.h>
@@ -25,7 +25,7 @@
     // 加速カーブの指数。1より大きいと、後からグッと伸びるようになります。
     // まずは1（線形）か2（緩やかな指数）から試すのがおすすめです。
 
-    acceleration-exponent = <2>;  // デフォルト0 線形加速
+    acceleration-exponent = <1>;  // デフォルト0 線形加速
 };
 
 // マウススクロールの設定
