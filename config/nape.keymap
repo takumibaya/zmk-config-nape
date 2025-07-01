@@ -2,7 +2,7 @@
 
 // マウス移動とスクロールのデフォルト値を設定
 
-#define ZMK_POINTING_DEFAULT_MOVE_VAL 70 //デフォルト800
+#define ZMK_POINTING_DEFAULT_MOVE_VAL 50 //デフォルト800
 #define ZMK_POINTING_DEFAULT_SCRL_VAL 100
 
 #include <input/processors.dtsi>
@@ -21,11 +21,11 @@
     // ボールを動かし始めてから最大速度に達するまでの時間を設定（例: 400ミリ秒）
     // この値が大きいほど、加速が緩やかになります。
 
-    time-to-max-speed-ms = <1800>;  // デフォルト0 即座に最大速度に
+    time-to-max-speed-ms = <0>;  // デフォルト0 即座に最大速度に
     // 加速カーブの指数。1より大きいと、後からグッと伸びるようになります。
     // まずは1（線形）か2（緩やかな指数）から試すのがおすすめです。
 
-    acceleration-exponent = <200>;  // デフォルト0 線形加速
+    acceleration-exponent = <0>;  // デフォルト0 線形加速
 };
 
 // マウススクロールの設定
@@ -41,18 +41,6 @@
 
 / {
     input_processors {
-
-        // マウスカーソルの動きをスケールダウンするプロセッサーを定義
-        pointer_scaler: pointer_scaler {
-            compatible = "zmk,input-processor-scaler";
-            // マウスのX軸とY軸の移動イベント(REL_X, REL_Y)を指定
-            codes = <INPUT_REL_X INPUT_REL_Y>;
-            // multiplier(乗数)とdivider(除数)で倍率を指定
-            // 例: 1/2 = 0.5倍にする (感度を半分にする)
-            multiplier = <1>;
-            divider = <2>;
-        };
-
 
         // 垂直スクロールのスケーラー
 
@@ -86,9 +74,8 @@
             compatible = "zmk,behavior-sensor-rotate-var";
             #sensor-binding-cells = <2>;
             bindings = <&mmv>, <&mmv>;
-            processors = <&pointer_scaler>;
 
-            // tap-ms = <10>;
+            tap-ms = <10>;
         };
 
         // マウスホイールスクロールの回転検出
