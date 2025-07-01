@@ -15,6 +15,9 @@
 // マウス移動の設定
 
 &mmv {
+
+    processors = <&pointer_scaler>;
+
     delay-ms = <0>;              // 遅延なし
     trigger-period-ms = <10>;    // 10ミリ秒ごとにトリガー
     // ボールを動かし始めてから最大速度に達するまでの時間を設定（例: 400ミリ秒）
@@ -40,6 +43,19 @@
 
 / {
     input_processors {
+
+        // マウスカーソルの動きをスケールダウンするプロセッサーを定義
+        pointer_scaler: pointer_scaler {
+            compatible = "zmk,input-processor-scaler";
+            // マウスのX軸とY軸の移動イベント(REL_X, REL_Y)を指定
+            codes = <INPUT_REL_X INPUT_REL_Y>;
+            // multiplier(乗数)とdivider(除数)で倍率を指定
+            // 例: 1/2 = 0.5倍にする (感度を半分にする)
+            multiplier = <1>;
+            divider = <2>;
+        };
+
+
         // 垂直スクロールのスケーラー
 
         zip_wheel_scaler: zip_wheel_scaler {
