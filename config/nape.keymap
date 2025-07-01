@@ -2,7 +2,7 @@
 
 // マウス移動とスクロールのデフォルト値を設定
 
-#define ZMK_POINTING_DEFAULT_MOVE_VAL 5 //デフォルト800
+#define ZMK_POINTING_DEFAULT_MOVE_VAL 1 //デフォルト800
 #define ZMK_POINTING_DEFAULT_SCRL_VAL 100
 
 #include <input/processors.dtsi>
