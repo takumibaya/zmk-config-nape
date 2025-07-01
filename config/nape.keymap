@@ -86,10 +86,9 @@
             compatible = "zmk,behavior-sensor-rotate-var";
             #sensor-binding-cells = <2>;
             bindings = <&mmv>, <&mmv>;
-
             processors = <&pointer_scaler>;　
 
-            tap-ms = <10>;
+            // tap-ms = <10>;
         };
 
         // マウスホイールスクロールの回転検出
