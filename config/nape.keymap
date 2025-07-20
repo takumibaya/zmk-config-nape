@@ -3,7 +3,9 @@
 // マウス移動とスクロールのデフォルト値を設定
 
 #define ZMK_POINTING_DEFAULT_MOVE_VAL 10 //デフォルト800
-#define ZMK_POINTING_DEFAULT_SCRL_VAL 50
+
+#define ZMK_POINTING_DEFAULT_V_SCRL_VAL 50 // 垂直スクロールのデフォルト値を変更
+#define ZMK_POINTING_DEFAULT_H_SCRL_VAL 150 // 横スクロールのデフォルト値を設定 (例: 150)
 
 #include <input/processors.dtsi>
 #include <zephyr/dt-bindings/input/input-event-codes.h>
@@ -28,14 +30,28 @@
     acceleration-exponent = <2>;  // デフォルト0 線形加速
 };
 
-// マウススクロールの設定
+// 垂直マウススクロールの設定
+ &msc_vertical {
+     compatible = "zmk,behavior-mouse-scroll";
+     delay-ms = <0>;              // 遅延なし
+     trigger-period-ms = <10>;    // 10ミリ秒ごとにトリガー
+     time-to-max-speed-ms = <200>;  // 即座に最大速度に
+     acceleration-exponent = <4>;  // 加速なし
+    // この設定がZMK_POINTING_DEFAULT_V_SCRL_VALを参照するように明示的に設定
+    scroll-sensitivity = <ZMK_POINTING_DEFAULT_V_SCRL_VAL>;
+ };
 
-&msc {
+// 水平マウススクロールの設定
+&msc_horizontal {
+    compatible = "zmk,behavior-mouse-scroll";
     delay-ms = <0>;              // 遅延なし
     trigger-period-ms = <10>;    // 10ミリ秒ごとにトリガー
     time-to-max-speed-ms = <200>;  // 即座に最大速度に
-    acceleration-exponent = <4>;  // 加速なし
+    acceleration-exponent = <8>;  // 水平スクロールの加速を大きく (例: 8)
+    // この設定がZMK_POINTING_DEFAULT_H_SCRL_VALを参照するように明示的に設定
+    scroll-sensitivity = <ZMK_POINTING_DEFAULT_H_SCRL_VAL>;
 };
+
 
 // 入力プロセッサーの設定
 
@@ -78,12 +94,21 @@
             tap-ms = <10>;
         };
 
-        // マウスホイールスクロールの回転検出
+        
+        // 垂直マウスホイールスクロールの回転検出
+        mouse_scrl_vertical: mouse_wheel_scrl_vertical {
+             compatible = "zmk,behavior-sensor-rotate-var";
+             #sensor-binding-cells = <2>;
+            bindings = <&msc_vertical>, <&msc_vertical>; // 垂直スクロールの設定を参照
 
-        mouse_scrl: mouse_wheel_scrl {
+             tap-ms = <10>;
+         };
+
+        // 水平マウスホイールスクロールの回転検出
+        mouse_scrl_horizontal: mouse_wheel_scrl_horizontal {
             compatible = "zmk,behavior-sensor-rotate-var";
             #sensor-binding-cells = <2>;
-            bindings = <&msc>, <&msc>;
+            bindings = <&msc_horizontal>, <&msc_horizontal>; // 水平スクロールの設定を参照
 
             tap-ms = <10>;
         };
@@ -179,12 +204,12 @@
 &mkp MB3  &mkp MB4  &mkp MB5  &trans  &trans  &trans
             >;
 
-            // トラックボールの動きをスクロールに変換
+           // トラックボールの動きをスクロールに変換
 
-            sensor-bindings =
-                <&mouse_scrl SCRL_DOWN SCRL_UP>,
-                <&mouse_scrl SCRL_UP SCRL_DOWN>;
-        };
+             sensor-bindings =
+                <&mouse_scrl_vertical SCRL_DOWN SCRL_UP>,  // 垂直スクロール
+                <&mouse_scrl_horizontal SCRL_LEFT SCRL_RIGHT>; // 水平スクロール
+         };
 
         orientation_layer {
             bindings = <
