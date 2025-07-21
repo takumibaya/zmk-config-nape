@@ -2,10 +2,8 @@
 
 // マウス移動とスクロールのデフォルト値を設定
 
-#define ZMK_POINTING_DEFAULT_MOVE_VAL 10 //デフォルト800
-
-#define ZMK_POINTING_DEFAULT_V_SCRL_VAL 50 // 垂直スクロールのデフォルト値を変更
-#define ZMK_POINTING_DEFAULT_H_SCRL_VAL 150 // 横スクロールのデフォルト値を設定 (例: 150)
+#define ZMK_POINTING_DEFAULT_MOVE_VAL 100 //デフォルト800
+#define ZMK_POINTING_DEFAULT_SCRL_VAL 50
 
 #include <input/processors.dtsi>
 #include <zephyr/dt-bindings/input/input-event-codes.h>
@@ -27,31 +25,17 @@
     // 加速カーブの指数。1より大きいと、後からグッと伸びるようになります。
     // まずは1（線形）か2（緩やかな指数）から試すのがおすすめです。
 
-    acceleration-exponent = <2>;  // デフォルト0 線形加速
+    acceleration-exponent = <0>;  // デフォルト0 線形加速
 };
 
-// 垂直マウススクロールの設定
- &msc_vertical {
-     compatible = "zmk,behavior-mouse-scroll";
-     delay-ms = <0>;              // 遅延なし
-     trigger-period-ms = <10>;    // 10ミリ秒ごとにトリガー
-     time-to-max-speed-ms = <200>;  // 即座に最大速度に
-     acceleration-exponent = <4>;  // 加速なし
-    // この設定がZMK_POINTING_DEFAULT_V_SCRL_VALを参照するように明示的に設定
-    scroll-sensitivity = <ZMK_POINTING_DEFAULT_V_SCRL_VAL>;
- };
+// マウススクロールの設定
 
-// 水平マウススクロールの設定
-&msc_horizontal {
-    compatible = "zmk,behavior-mouse-scroll";
+&msc {
     delay-ms = <0>;              // 遅延なし
     trigger-period-ms = <10>;    // 10ミリ秒ごとにトリガー
     time-to-max-speed-ms = <200>;  // 即座に最大速度に
-    acceleration-exponent = <8>;  // 水平スクロールの加速を大きく (例: 8)
-    // この設定がZMK_POINTING_DEFAULT_H_SCRL_VALを参照するように明示的に設定
-    scroll-sensitivity = <ZMK_POINTING_DEFAULT_H_SCRL_VAL>;
+    acceleration-exponent = <4>;  // 加速なし
 };
-
 
 // 入力プロセッサーの設定
 
@@ -94,21 +78,12 @@
             tap-ms = <10>;
         };
 
-        
-        // 垂直マウスホイールスクロールの回転検出
-        mouse_scrl_vertical: mouse_wheel_scrl_vertical {
-             compatible = "zmk,behavior-sensor-rotate-var";
-             #sensor-binding-cells = <2>;
-            bindings = <&msc_vertical>, <&msc_vertical>; // 垂直スクロールの設定を参照
+        // マウスホイールスクロールの回転検出
 
-             tap-ms = <10>;
-         };
-
-        // 水平マウスホイールスクロールの回転検出
-        mouse_scrl_horizontal: mouse_wheel_scrl_horizontal {
+        mouse_scrl: mouse_wheel_scrl {
             compatible = "zmk,behavior-sensor-rotate-var";
             #sensor-binding-cells = <2>;
-            bindings = <&msc_horizontal>, <&msc_horizontal>; // 水平スクロールの設定を参照
+            bindings = <&msc>, <&msc>;
 
             tap-ms = <10>;
         };
@@ -204,12 +179,12 @@
 &mkp MB3  &mkp MB4  &mkp MB5  &trans  &trans  &trans
             >;
 
-           // トラックボールの動きをスクロールに変換
+            // トラックボールの動きをスクロールに変換
 
-             sensor-bindings =
-                <&mouse_scrl_vertical SCRL_DOWN SCRL_UP>,  // 垂直スクロール
-                <&mouse_scrl_horizontal SCRL_LEFT SCRL_RIGHT>; // 水平スクロール
-         };
+            sensor-bindings =
+                <&mouse_scrl SCRL_DOWN SCRL_UP>,
+                <&mouse_scrl SCRL_UP SCRL_DOWN>;
+        };
 
         orientation_layer {
             bindings = <
